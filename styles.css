@@ -1,15 +1,15 @@
 :root {
   color-scheme: dark;
-  --bg: #111318;
-  --panel: #181b22;
-  --panel-2: #20242d;
-  --text: #f5f7fb;
-  --muted: #9aa3b2;
-  --line: #303642;
+  --bg: #000;
+  --panel: #060606;
+  --panel-2: #101010;
+  --text: #f7f7f7;
+  --muted: #8e8e93;
+  --line: #242424;
   --red: #e24b4a;
   --green: #5dcaa5;
-  --gold: #ef9f27;
-  --blue: #5b8def;
+  --gold: #f7f7f7;
+  --blue: #f7f7f7;
 }
 
 * {
@@ -89,7 +89,7 @@ textarea,
 }
 
 .brand-a {
-  color: var(--green);
+  color: var(--text);
 }
 
 .icon-btn,
@@ -97,7 +97,7 @@ textarea,
 .pause-btn,
 .close-btn {
   border: 1px solid var(--line);
-  background: rgba(255, 255, 255, 0.04);
+  background: #111;
   color: var(--text);
 }
 
@@ -126,11 +126,12 @@ textarea,
   margin: 8px 0 12px;
   font-size: clamp(42px, 7vw, 86px);
   line-height: 0.98;
+  letter-spacing: -0.01em;
 }
 
 .eyebrow {
   margin: 0;
-  color: var(--green);
+  color: var(--muted);
   font-size: 13px;
   font-weight: 800;
 }
@@ -145,6 +146,9 @@ textarea,
 .hero-visual {
   min-height: 240px;
   border-bottom: 1px solid var(--line);
+  background: #fff;
+  border-radius: 8px;
+  overflow: hidden;
 }
 
 .hero-visual canvas {
@@ -185,7 +189,7 @@ textarea,
   min-width: 0;
   height: 48px;
   border: 1px solid var(--line);
-  background: #101217;
+  background: #000;
   color: var(--text);
   border-radius: 8px;
   padding: 0 14px;
@@ -196,8 +200,8 @@ textarea,
   min-height: 48px;
   border: 0;
   border-radius: 8px;
-  background: var(--green);
-  color: #062a22;
+  background: #f5f5f5;
+  color: #050505;
   font-weight: 900;
 }
 
@@ -210,7 +214,7 @@ textarea,
   overflow: hidden;
   border: 1px solid var(--line);
   border-radius: 8px;
-  background: #12151b;
+  background: #050505;
   display: none;
 }
 
@@ -221,6 +225,7 @@ textarea,
   padding: 12px 14px;
   border-bottom: 1px solid var(--line);
   color: var(--text);
+  background: #050505;
 }
 
 .suggestion:last-child {
@@ -271,7 +276,7 @@ textarea,
 }
 
 .track-card:hover {
-  border-color: rgba(93, 202, 165, 0.75);
+  border-color: rgba(255, 255, 255, 0.72);
 }
 
 .track-card h3 {
@@ -299,7 +304,7 @@ textarea,
 .pill {
   padding: 4px 8px;
   border-radius: 999px;
-  background: #11151c;
+  background: #111;
   color: var(--muted);
   font-size: 12px;
 }
@@ -312,7 +317,7 @@ textarea,
 }
 
 .site-foot a {
-  color: var(--green);
+  color: var(--text);
 }
 
 .pregame-layout {
@@ -364,7 +369,7 @@ textarea,
   padding: 12px;
   border: 1px solid var(--line);
   border-radius: 8px;
-  background: #11151c;
+  background: #050505;
 }
 
 .metric-grid span {
@@ -390,13 +395,13 @@ textarea,
   min-height: 42px;
   border: 1px solid var(--line);
   border-radius: 8px;
-  background: #11151c;
+  background: #050505;
   color: var(--text);
 }
 
 .period-tabs button.active {
-  border-color: var(--green);
-  color: var(--green);
+  border-color: #f5f5f5;
+  color: #f5f5f5;
 }
 
 .loadout-title {
@@ -415,7 +420,7 @@ textarea,
   padding: 12px;
   border: 1px solid var(--line);
   border-radius: 8px;
-  background: #11151c;
+  background: #050505;
 }
 
 .loadout-summary span,
@@ -457,16 +462,16 @@ textarea,
   min-height: 168px;
   border: 1px solid var(--line);
   border-radius: 8px;
-  background: #11151c;
+  background: #050505;
   color: var(--text);
   padding: 8px;
   text-align: center;
 }
 
 .loadout-card.active {
-  border-color: var(--green);
-  background: rgba(93, 202, 165, 0.12);
-  box-shadow: 0 0 18px rgba(93, 202, 165, 0.18);
+  border-color: #f5f5f5;
+  background: #111;
+  box-shadow: 0 0 18px rgba(255, 255, 255, 0.14);
 }
 
 .loadout-card strong,
@@ -490,7 +495,7 @@ textarea,
   display: block;
   margin-bottom: 8px;
   border-radius: 6px;
-  background: #0d0f14;
+  background: #fff;
 }
 
 .loadout-modal-card {
@@ -506,7 +511,7 @@ textarea,
   position: fixed;
   inset: 0;
   overflow: hidden;
-  background: #0f1116;
+  background: #000;
   touch-action: none;
   user-select: none;
   -webkit-user-select: none;
@@ -568,18 +573,18 @@ textarea,
 
 .fuel-icon {
   border-radius: 8px;
-  background: #e24b4a;
-  color: #6b0909;
+  background: #f5f5f5;
+  color: #050505;
 }
 
 .coin-icon {
-  background: #ffd33d;
-  color: #b83514;
+  background: #f5f5f5;
+  color: #050505;
 }
 
 .diamond-icon {
-  background: linear-gradient(135deg, #8fe6ff, #327cff);
-  color: #0a428c;
+  background: #f5f5f5;
+  color: #050505;
 }
 
 .stat-row strong {
@@ -604,7 +609,7 @@ textarea,
   position: absolute;
   inset: 0 auto 0 0;
   width: 0%;
-  background: linear-gradient(90deg, #fff064, #5dcaa5);
+  background: linear-gradient(90deg, #f5f5f5, #8e8e93);
 }
 
 .track-badge {
@@ -623,7 +628,7 @@ textarea,
 }
 
 .track-badge span {
-  color: var(--green);
+  color: var(--muted);
   font-size: 13px;
   font-weight: 900;
 }
@@ -756,7 +761,7 @@ textarea,
   border-radius: 120px 120px 0 0;
   background:
     radial-gradient(circle at 50% 100%, #493a2d 0 22%, transparent 23%),
-    conic-gradient(from 225deg, #fff 0 7deg, transparent 8deg 42deg, #fff 43deg 50deg, transparent 51deg 84deg, #ff5d75 85deg 112deg, transparent 113deg),
+    conic-gradient(from 225deg, #fff 0 7deg, transparent 8deg 42deg, #fff 43deg 50deg, transparent 51deg 84deg, #d8d8d8 85deg 112deg, transparent 113deg),
     rgba(10, 12, 16, 0.62);
   box-shadow: inset 0 0 18px rgba(0, 0, 0, 0.45);
 }
@@ -788,7 +793,7 @@ textarea,
 }
 
 .boost-gauge i {
-  background: #ffd45a;
+  background: #f5f5f5;
 }
 
 .crash-feedback {
@@ -798,10 +803,10 @@ textarea,
   transform: translateX(-50%);
   width: min(360px, calc(100vw - 40px));
   padding: 16px 18px;
-  border: 1px solid rgba(226, 75, 74, 0.55);
+  border: 1px solid rgba(255, 255, 255, 0.18);
   border-radius: 8px;
-  background: rgba(18, 10, 12, 0.86);
-  box-shadow: 0 0 30px rgba(226, 75, 74, 0.2);
+  background: rgba(5, 5, 5, 0.86);
+  box-shadow: 0 0 30px rgba(255, 255, 255, 0.08);
   text-align: center;
   pointer-events: none;
 }
@@ -812,7 +817,7 @@ textarea,
 }
 
 .crash-feedback strong {
-  color: #ff7876;
+  color: #f5f5f5;
   font-size: 22px;
 }
 
@@ -827,7 +832,7 @@ textarea,
   inset: auto 18px 108px;
   display: none;
   padding: 12px 14px;
-  border: 1px solid rgba(93, 202, 165, 0.45);
+  border: 1px solid rgba(255, 255, 255, 0.2);
   border-radius: 8px;
   background: rgba(10, 12, 16, 0.82);
   text-align: center;
@@ -840,7 +845,7 @@ textarea,
 }
 
 .rotate-tip strong {
-  color: var(--green);
+  color: var(--text);
 }
 
 .rotate-tip span {
@@ -1115,7 +1120,7 @@ textarea,
 
 /* Stonkrider-style portrait game surface */
 .screen-game {
-  background: #090a0e;
+  background: #000;
 }
 
 .screen-game::before {
@@ -1187,7 +1192,7 @@ textarea,
 }
 
 .air-line strong {
-  color: #5dcaa5;
+  color: #f5f5f5;
   font-weight: 700;
 }
 
@@ -1257,7 +1262,7 @@ textarea,
 
 .touch-controls button.active {
   transform: none;
-  color: rgba(93, 202, 165, 0.9);
+  color: rgba(245, 245, 245, 0.9);
   filter: none;
 }
 
@@ -1374,8 +1379,8 @@ textarea,
   min-height: 58px;
   border: 0;
   border-radius: 999px;
-  background: #4ba080;
-  color: rgba(9, 10, 14, 0.78);
+  background: #f5f5f5;
+  color: #050505;
   font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
   font-size: clamp(20px, 5vw, 30px);
   letter-spacing: 0.12em;
@@ -1396,7 +1401,7 @@ textarea,
   left: 0;
   right: 0;
   bottom: max(36px, calc(env(safe-area-inset-bottom) + 22px));
-  color: rgba(93, 202, 165, 0.88);
+  color: rgba(245, 245, 245, 0.82);
   font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
   font-size: clamp(22px, 6vw, 36px);
   letter-spacing: 0.14em;
@@ -1469,8 +1474,8 @@ textarea,
 
 .pause-actions button:last-child {
   border: 0;
-  background: #5dcaa5;
-  color: #061b16;
+  background: #f5f5f5;
+  color: #050505;
 }
 
 @media (orientation: landscape) {

@@ -28,7 +28,7 @@ const tracks = [
     tag: "场内ETF",
     secid: "1.510300",
     base: 3.8,
-    color: "#5b8def",
+    color: "#5dcaa5",
     seed: 33,
     mood: "dip",
   },
@@ -39,7 +39,7 @@ const tracks = [
     tag: "高波动",
     secid: "0.161725",
     base: 1.08,
-    color: "#ef9f27",
+    color: "#e24b4a",
     seed: 44,
     mood: "roller",
   },
@@ -72,36 +72,36 @@ const riders = [
     id: "bagholder",
     name: "接盘侠",
     desc: "越跌越勇",
-    suit: "#f08b12",
-    helmet: "#ff9e1a",
-    visor: "#17233a",
+    suit: "#f5f5f5",
+    helmet: "#f5f5f5",
+    visor: "#050505",
     asset: "assets/rider-bagholder.svg",
   },
   {
     id: "oldhand",
     name: "老登操盘手",
     desc: "嘴硬手稳",
-    suit: "#8f98a8",
-    helmet: "#d8dde6",
-    visor: "#20242d",
+    suit: "#f5f5f5",
+    helmet: "#f5f5f5",
+    visor: "#050505",
     asset: "assets/rider-oldhand.svg",
   },
   {
     id: "leekgod",
     name: "韭菜战神",
     desc: "割完还能长",
-    suit: "#5dcaa5",
-    helmet: "#7df0c6",
-    visor: "#10372f",
+    suit: "#f5f5f5",
+    helmet: "#f5f5f5",
+    visor: "#050505",
     asset: "assets/rider-leekgod.svg",
   },
   {
     id: "limitup",
     name: "涨停猎人",
     desc: "只看红线",
-    suit: "#e24b4a",
-    helmet: "#ff6968",
-    visor: "#2a1010",
+    suit: "#f5f5f5",
+    helmet: "#f5f5f5",
+    visor: "#050505",
     asset: "assets/rider-limitup.svg",
   },
 ];
@@ -111,11 +111,11 @@ const vehicles = [
     id: "default",
     name: "K线赛车",
     desc: "默认座驾",
-    body: "#33b83d",
-    accent: "#73e044",
-    fork: "#99d970",
+    body: "#f6f6f6",
+    accent: "#ffffff",
+    fork: "#d8d8d8",
     asset: "assets/motocross-ai-side.png",
-    filter: "saturate(1.06) contrast(1.03)",
+    filter: "grayscale(1) contrast(1.85) brightness(1.18)",
     imageBox: [-57, -66, 125, 125],
     wheelBack: { x: -36, y: 20, r: 15, sx: 214, sy: 865, sr: 162 },
     wheelFront: { x: 39, y: 19, r: 16, sx: 972, sy: 860, sr: 166 },
@@ -138,7 +138,7 @@ const $ = (id) => document.getElementById(id);
 const EM_TOKEN = "D43BF722C8E33BD155A13C30E7235B2E";
 const EM_SEARCH_API = "https://searchapi.eastmoney.com/api/suggest/get";
 const EM_KLINE_API = "https://push2his.eastmoney.com/api/qt/stock/kline/get";
-const ASSET_VERSION = "touch-fix-1";
+const ASSET_VERSION = "mono-red-green-1";
 const imageCache = new Map();
 const engineAudio = {
   ctx: null,
@@ -234,11 +234,16 @@ function secidFromCode(code) {
 }
 
 function colorForCode(code) {
-  const palette = ["#e24b4a", "#5dcaa5", "#ef9f27", "#5b8def"];
+  const palette = ["#e24b4a", "#5dcaa5"];
   const total = String(code)
     .split("")
     .reduce((sum, char) => sum + char.charCodeAt(0), 0);
   return palette[total % palette.length];
+}
+
+function marketColorForPoints(points) {
+  if (!points?.length) return "#5dcaa5";
+  return points[points.length - 1].close >= points[0].close ? "#e24b4a" : "#5dcaa5";
 }
 
 function normalizeSearchItem(item) {
@@ -461,7 +466,7 @@ function drawChart(canvas, points, color = "#5dcaa5", options = {}) {
 function drawHero() {
   const canvas = $("hero-chart");
   const points = periodPoints(tracks[3], "all");
-  drawChart(canvas, points, "#ef9f27", { pad: 12, thick: true });
+  drawChart(canvas, points, marketColorForPoints(points), { pad: 12, thick: true });
 }
 
 function renderCards() {
@@ -483,7 +488,7 @@ function renderCards() {
     `;
     card.addEventListener("click", () => selectTrack(track));
     grid.appendChild(card);
-    drawChart(card.querySelector("canvas"), points, track.color, { pad: 8 });
+    drawChart(card.querySelector("canvas"), points, marketColorForPoints(points), { pad: 8 });
   });
 }
 
@@ -590,10 +595,10 @@ function renderPregame() {
   $("selected-code").textContent = track.code;
   $("metric-period").textContent = state.period === "1y" ? "近 1 年" : state.period === "3y" ? "近 3 年" : "全部";
   $("metric-return").textContent = `${m.returns > 0 ? "+" : ""}${m.returns}%`;
-  $("metric-return").style.color = Number(m.returns) >= 0 ? "#e24b4a" : "#5dcaa5";
+  $("metric-return").style.color = "#f5f5f5";
   $("metric-difficulty").textContent = m.difficulty;
   $("metric-volatility").textContent = m.vol.toFixed(2);
-  drawChart($("preview-chart"), points, track.color, { pad: 34, labels: true, thick: true, bg: "#181b22" });
+  drawChart($("preview-chart"), points, marketColorForPoints(points), { pad: 34, labels: true, thick: true, bg: "#020202" });
   renderLoadout();
 }
 
@@ -722,8 +727,8 @@ function drawVehiclePreview(canvas, vehicle) {
     ctx.drawImage(image, -88, -86, 176, 176);
     ctx.filter = "none";
     ctx.shadowBlur = 0;
-    drawRotatingWheelCrop(ctx, image, { x: -51, y: 35, r: 20, sx: 214, sy: 865, sr: 162 }, 0.15);
-    drawRotatingWheelCrop(ctx, image, { x: 56, y: 33, r: 22, sx: 972, sy: 860, sr: 166 }, 0.75);
+    drawRotatingWheelCrop(ctx, image, { x: -51, y: 35, r: 20, sx: 214, sy: 865, sr: 162 }, 0.15, vehicle.filter);
+    drawRotatingWheelCrop(ctx, image, { x: 56, y: 33, r: 22, sx: 972, sy: 860, sr: 166 }, 0.75, vehicle.filter);
     ctx.restore();
     return;
   }
@@ -1230,11 +1235,11 @@ function drawGame(ctx, game, w, h, onGround) {
   ctx.fillStyle = "rgba(28, 30, 39, 0.72)";
   ctx.fill();
 
-  drawNeonTrack(ctx, game.terrain, state.selected.color);
+  drawNeonTrack(ctx, game.terrain, marketColorForPoints(state.points));
   drawPriceMarkers(ctx, game.terrain, game.camera, w);
 
-  drawFlag(ctx, 52, game.terrain[0].y, "起点", "#5dcaa5");
-  drawFlag(ctx, game.terrain[game.terrain.length - 1].x, game.terrain[game.terrain.length - 1].y, "终点", "#ef9f27");
+  drawFlag(ctx, 52, game.terrain[0].y, "起点", "#f5f5f5");
+  drawFlag(ctx, game.terrain[game.terrain.length - 1].x, game.terrain[game.terrain.length - 1].y, "终点", "#f5f5f5");
   drawBike(ctx, game.bike, onGround);
   ctx.restore();
 
@@ -1265,8 +1270,8 @@ function drawNeonTrack(ctx, terrain, color) {
   ctx.stroke();
   ctx.shadowBlur = 0;
   strokePath();
-  ctx.strokeStyle = "#ffd1d1";
-  ctx.globalAlpha = color === "#5dcaa5" ? 0.55 : 0.38;
+  ctx.strokeStyle = "#f5f5f5";
+  ctx.globalAlpha = color === "#5dcaa5" ? 0.45 : 0.34;
   ctx.lineWidth = 1.4;
   ctx.stroke();
   ctx.restore();
@@ -1467,19 +1472,20 @@ function drawExternalBike(ctx, bike, vehicle) {
   ctx.shadowBlur = 0;
 
   ctx.globalCompositeOperation = "source-over";
-  drawRotatingWheelCrop(ctx, image, vehicle.wheelBack, bike.wheelSpin);
-  drawRotatingWheelCrop(ctx, image, vehicle.wheelFront, bike.wheelSpin + 0.8);
+  drawRotatingWheelCrop(ctx, image, vehicle.wheelBack, bike.wheelSpin, vehicle.filter);
+  drawRotatingWheelCrop(ctx, image, vehicle.wheelFront, bike.wheelSpin + 0.8, vehicle.filter);
   ctx.restore();
   return true;
 }
 
-function drawRotatingWheelCrop(ctx, image, wheel, spin) {
+function drawRotatingWheelCrop(ctx, image, wheel, spin, filter = "none") {
   ctx.save();
   ctx.translate(wheel.x, wheel.y);
   ctx.rotate(spin);
   ctx.beginPath();
   ctx.arc(0, 0, wheel.r, 0, Math.PI * 2);
   ctx.clip();
+  ctx.filter = filter || "none";
   ctx.drawImage(
     image,
     wheel.sx - wheel.sr,
@@ -1491,6 +1497,7 @@ function drawRotatingWheelCrop(ctx, image, wheel, spin) {
     wheel.r * 2,
     wheel.r * 2,
   );
+  ctx.filter = "none";
   ctx.strokeStyle = "rgba(255,255,255,.22)";
   ctx.lineWidth = 1;
   ctx.beginPath();
@@ -1570,7 +1577,7 @@ function drawMiniMap(ctx, game, w, h) {
   ctx.lineWidth = 1;
   ctx.stroke();
   const bx = x0 + ((game.bike.x - minX) / (maxX - minX)) * mapW;
-  ctx.fillStyle = "#ef9f27";
+  ctx.fillStyle = "#f5f5f5";
   ctx.beginPath();
   ctx.arc(bx, y0 + mapH / 2, 4, 0, Math.PI * 2);
   ctx.fill();
@@ -1604,15 +1611,16 @@ function drawShareCard(score, elapsed, flips, crashes) {
   const canvas = $("share-card");
   const ctx = canvas.getContext("2d");
   const track = state.selected;
-  ctx.fillStyle = "#111318";
+  const lineColor = marketColorForPoints(state.points);
+  ctx.fillStyle = "#030303";
   ctx.fillRect(0, 0, canvas.width, canvas.height);
-  ctx.strokeStyle = "#303642";
+  ctx.strokeStyle = "#2a2a2a";
   ctx.lineWidth = 2;
   ctx.strokeRect(20, 20, canvas.width - 40, canvas.height - 40);
   ctx.font = "bold 42px sans-serif";
   ctx.fillStyle = "#f5f7fb";
   ctx.fillText("A股", 58, 76);
-  ctx.fillStyle = "#5dcaa5";
+  ctx.fillStyle = "#f5f5f5";
   ctx.fillText("K线骑行", 144, 76);
   ctx.fillStyle = "#9aa3b2";
   ctx.font = "28px sans-serif";
@@ -1624,7 +1632,7 @@ function drawShareCard(score, elapsed, flips, crashes) {
   ctx.font = "28px sans-serif";
   ctx.fillStyle = "#9aa3b2";
   ctx.fillText("分", canvas.width / 2, 346);
-  drawShareChart(ctx, state.points, track.color, 58, 420, canvas.width - 116, 250);
+  drawShareChart(ctx, state.points, lineColor, 58, 420, canvas.width - 116, 250);
   const stats = [
     ["翻转", flips],
     ["摔车", crashes],
@@ -1639,7 +1647,7 @@ function drawShareCard(score, elapsed, flips, crashes) {
     ctx.font = "bold 52px sans-serif";
     ctx.fillText(String(value), x, 754);
   });
-  ctx.fillStyle = "#5dcaa5";
+  ctx.fillStyle = "#f5f5f5";
   ctx.font = "bold 34px sans-serif";
   ctx.fillText("来挑战你的持仓过山车", canvas.width / 2, 1000);
   ctx.fillStyle = "#9aa3b2";
