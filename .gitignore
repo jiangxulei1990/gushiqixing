@@ -1,0 +1,4 @@
+assets/*
+!assets/motocross-ai-side.png
+
+.DS_Store
