@@ -1,0 +1,178 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
+    <meta name="theme-color" content="#111318" />
+    <meta
+      name="description"
+      content="A股K线骑行，把历史行情变成骑行赛道。仅供娱乐，不构成投资建议。"
+    />
+    <title>A股K线骑行</title>
+    <link rel="stylesheet" href="./styles.css?v=sound-engine-1" />
+  </head>
+  <body>
+    <main id="app">
+      <section class="screen screen-home" id="home-screen">
+        <header class="topbar">
+          <div class="brand">
+            <span class="brand-a">A股</span>
+            <span>K线骑行</span>
+          </div>
+          <button class="icon-btn" id="sound-toggle" aria-label="音效开关" title="音效开关">🔊</button>
+        </header>
+
+        <section class="hero">
+          <div class="hero-copy">
+            <p class="eyebrow">历史行情娱乐赛道</p>
+            <h1>骑过一条 K 线，才知道它有多颠。</h1>
+            <p class="subtitle">选择股票、指数或基金样例，把收盘价曲线变成越野赛道。只看历史，不作建议。</p>
+          </div>
+          <div class="hero-visual" aria-hidden="true">
+            <canvas id="hero-chart" width="760" height="300"></canvas>
+          </div>
+        </section>
+
+        <form class="search-panel" id="ticker-form">
+          <label for="ticker-search">输入代码或名称</label>
+          <div class="search-row">
+            <input id="ticker-search" type="search" placeholder="例如：贵州茅台、沪深300、白酒ETF" autocomplete="off" />
+            <button type="submit">开骑</button>
+          </div>
+          <div class="suggestions" id="suggestions"></div>
+        </form>
+
+        <section class="section">
+          <div class="section-head">
+            <h2>热门赛道</h2>
+            <span>先跑样例，后接真实行情</span>
+          </div>
+          <div class="track-grid" id="track-grid"></div>
+        </section>
+
+        <footer class="site-foot">
+          <a href="#" id="legal-link">免责声明</a>
+          <span>仅供娱乐，不构成任何投资建议</span>
+        </footer>
+      </section>
+
+      <section class="screen screen-pregame" id="pregame-screen" hidden>
+        <header class="topbar">
+          <button class="ghost-btn" id="back-home">← 返回</button>
+          <div class="brand compact"><span class="brand-a">A股</span><span>K线骑行</span></div>
+        </header>
+
+        <section class="pregame-layout">
+          <div class="chart-card">
+            <canvas id="preview-chart" width="900" height="420"></canvas>
+          </div>
+          <aside class="track-info">
+            <p class="eyebrow" id="selected-type">股票</p>
+            <h2 id="selected-name">贵州茅台</h2>
+            <div class="ticker-code" id="selected-code">600519</div>
+            <div class="metric-grid">
+              <div>
+                <span>周期</span>
+                <strong id="metric-period">近 3 年</strong>
+              </div>
+              <div>
+                <span>涨跌</span>
+                <strong id="metric-return">+0.0%</strong>
+              </div>
+              <div>
+                <span>难度</span>
+                <strong id="metric-difficulty">普通</strong>
+              </div>
+              <div>
+                <span>波动</span>
+                <strong id="metric-volatility">0.00</strong>
+              </div>
+            </div>
+            <div class="period-tabs" id="period-tabs">
+              <button data-period="1y" type="button">1年</button>
+              <button data-period="3y" type="button" class="active">3年</button>
+              <button data-period="all" type="button">全部</button>
+            </div>
+            <button class="primary-btn" id="start-ride">开始骑行</button>
+          </aside>
+        </section>
+      </section>
+
+      <section class="screen screen-game" id="game-screen" hidden>
+        <canvas id="game-canvas"></canvas>
+        <div class="stonk-hud">
+          <div class="hud-left">
+            <div class="market-line"><span id="ride-track-name">A股K线</span><span id="ride-period">3年</span></div>
+            <div class="score-line"><strong id="score">0</strong><span>分</span></div>
+            <div class="air-line">滞空：<strong id="airtime">贴地</strong></div>
+          </div>
+          <button class="round-action pause-btn" id="quit-game" aria-label="暂停">Ⅱ</button>
+          <strong class="game-timer" id="timer">0:00.0</strong>
+          <button class="round-action ghost-action" type="button" aria-label="重来">↻</button>
+          <button class="round-action sound-action" type="button" aria-label="声音">🔊</button>
+        </div>
+        <div class="crash-feedback" id="crash-feedback" hidden>
+          <strong id="crash-title">撞到头了</strong>
+          <span id="crash-message">生命 -1</span>
+        </div>
+        <div class="pause-menu" id="pause-menu" hidden>
+          <div class="pause-panel">
+            <strong>已暂停</strong>
+            <div class="pause-actions">
+              <button type="button" id="pause-exit">退出</button>
+              <button type="button" id="pause-retry">重新</button>
+              <button type="button" id="pause-resume">继续</button>
+            </div>
+          </div>
+        </div>
+        <div class="touch-controls">
+          <button data-control="right" class="control-zone nose-zone" aria-label="前压"></button>
+          <button data-control="forward" class="control-zone gas-zone top-gas" aria-label="前进"></button>
+          <button data-control="jump" class="control-zone jump-zone" aria-label="跳跃"></button>
+          <button data-control="left" class="control-zone wheelie-zone" aria-label="后仰"></button>
+          <button data-control="forward" class="control-zone gas-zone bottom-gas" aria-label="前进"></button>
+        </div>
+        <div class="control-guide" id="control-guide">
+          <span class="guide-label nose-label">前压</span>
+          <span class="guide-label top-gas-label">前进</span>
+          <span class="guide-label jump-label">点击 = 跳跃</span>
+          <span class="guide-label wheelie-label">后仰</span>
+          <span class="guide-label bottom-gas-label">前进</span>
+        </div>
+        <button class="start-pill" id="tap-start" data-control="forward" type="button">点击开始</button>
+        <span id="lives" hidden>3</span>
+        <span id="speed" hidden>0</span>
+      </section>
+
+      <section class="modal" id="result-modal" hidden>
+        <div class="modal-card">
+          <p class="eyebrow" id="result-status">骑行完成</p>
+          <h2 id="result-score">0</h2>
+          <span class="points-label">分</span>
+          <div class="result-stats">
+            <div><span>翻转</span><strong id="result-flips">0</strong></div>
+            <div><span>摔车</span><strong id="result-crashes">0</strong></div>
+            <div><span>用时</span><strong id="result-time">0:00</strong></div>
+          </div>
+          <canvas id="share-card" width="900" height="1200"></canvas>
+          <div class="button-stack">
+            <button class="primary-btn" id="save-card">保存战绩图</button>
+            <button class="secondary-btn" id="retry-track">再骑一次</button>
+            <button class="secondary-btn" id="new-track">换条赛道</button>
+          </div>
+        </div>
+      </section>
+
+      <section class="modal" id="legal-modal" hidden>
+        <div class="modal-card legal-card">
+          <button class="close-btn" id="close-legal" aria-label="关闭">×</button>
+          <h2>免责声明</h2>
+          <p>《A股K线骑行》只把历史行情数据转成娱乐赛道，不提供投资建议、收益预测、买卖推荐或基金诊断。</p>
+          <p>页面中出现的股票、指数、基金名称仅用于样例演示。真实上线前应使用合规数据源，并按部署地区完成必要备案。</p>
+        </div>
+      </section>
+    </main>
+
+    <script src="./app.js?v=sound-engine-1"></script>
+  </body>
+</html>
