@@ -138,7 +138,7 @@ const $ = (id) => document.getElementById(id);
 const EM_TOKEN = "D43BF722C8E33BD155A13C30E7235B2E";
 const EM_SEARCH_API = "https://searchapi.eastmoney.com/api/suggest/get";
 const EM_KLINE_API = "https://push2his.eastmoney.com/api/qt/stock/kline/get";
-const ASSET_VERSION = "sound-engine-1";
+const ASSET_VERSION = "touch-fix-1";
 const imageCache = new Map();
 const engineAudio = {
   ctx: null,
@@ -1750,6 +1750,26 @@ function saveShareCard() {
   link.click();
 }
 
+function isTextInput(target) {
+  return Boolean(target?.closest?.("input, textarea, [contenteditable='true']"));
+}
+
+function gameScreenActive() {
+  const screen = $("game-screen");
+  return screen && !screen.hidden;
+}
+
+function preventGameSelection(event) {
+  if (isTextInput(event.target)) return;
+  event.preventDefault();
+}
+
+function clearGameplaySelection() {
+  if (!gameScreenActive() || isTextInput(document.activeElement)) return;
+  const selection = window.getSelection?.();
+  if (selection && selection.rangeCount > 0) selection.removeAllRanges();
+}
+
 function bindActions() {
   $("back-home").addEventListener("click", () => showScreen("home-screen"));
   $("start-ride").addEventListener("click", () => {
@@ -1803,6 +1823,12 @@ function bindActions() {
     });
     renderPregame();
   });
+
+  const gameScreen = $("game-screen");
+  ["contextmenu", "selectstart", "dragstart"].forEach((eventName) => {
+    gameScreen.addEventListener(eventName, preventGameSelection);
+  });
+  document.addEventListener("selectionchange", clearGameplaySelection);
 }
 
 drawHero();

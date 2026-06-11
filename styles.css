@@ -17,6 +17,12 @@
 }
 
 html,
+body,
+button {
+  -webkit-tap-highlight-color: transparent;
+}
+
+html,
 body {
   margin: 0;
   min-height: 100%;
@@ -27,6 +33,7 @@ body {
 
 body {
   overflow-x: hidden;
+  overscroll-behavior: none;
 }
 
 button,
@@ -34,8 +41,22 @@ input {
   font: inherit;
 }
 
+button,
+canvas,
+img {
+  -webkit-user-drag: none;
+}
+
 button {
   cursor: pointer;
+}
+
+input,
+textarea,
+[contenteditable="true"] {
+  user-select: text;
+  -webkit-user-select: text;
+  -webkit-touch-callout: default;
 }
 
 .screen {
@@ -487,12 +508,24 @@ button {
   overflow: hidden;
   background: #0f1116;
   touch-action: none;
+  user-select: none;
+  -webkit-user-select: none;
+  -webkit-touch-callout: none;
+}
+
+.screen-game * {
+  user-select: none;
+  -webkit-user-select: none;
+  -webkit-touch-callout: none;
 }
 
 #game-canvas {
   width: 100vw;
   height: 100vh;
   display: block;
+  user-select: none;
+  -webkit-user-select: none;
+  -webkit-touch-callout: none;
 }
 
 .landscape-hud {
@@ -1110,6 +1143,9 @@ button {
   color: rgba(245, 247, 251, 0.86);
   font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
   pointer-events: none;
+  user-select: none;
+  -webkit-user-select: none;
+  -webkit-touch-callout: none;
 }
 
 .hud-left {
@@ -1193,6 +1229,9 @@ button {
   z-index: 2;
   display: block;
   pointer-events: none;
+  user-select: none;
+  -webkit-user-select: none;
+  -webkit-touch-callout: none;
 }
 
 .touch-controls button,
@@ -1213,6 +1252,7 @@ button {
   pointer-events: auto;
   user-select: none;
   -webkit-user-select: none;
+  -webkit-touch-callout: none;
 }
 
 .touch-controls button.active {
@@ -1264,6 +1304,9 @@ button {
   pointer-events: none;
   opacity: 1;
   transition: opacity 0.32s ease;
+  user-select: none;
+  -webkit-user-select: none;
+  -webkit-touch-callout: none;
 }
 
 .control-guide.hidden {
@@ -1280,6 +1323,9 @@ button {
   font-weight: 800;
   letter-spacing: 0.18em;
   text-shadow: 0 0 18px rgba(255, 255, 255, 0.14);
+  user-select: none;
+  -webkit-user-select: none;
+  -webkit-touch-callout: none;
 }
 
 .nose-label {
@@ -1335,6 +1381,9 @@ button {
   letter-spacing: 0.12em;
   box-shadow: 0 12px 30px rgba(0, 0, 0, 0.32);
   touch-action: none;
+  user-select: none;
+  -webkit-user-select: none;
+  -webkit-touch-callout: none;
 }
 
 .start-pill[hidden] {
@@ -1381,6 +1430,9 @@ button {
   place-items: center;
   background: rgba(0, 0, 0, 0.46);
   backdrop-filter: blur(2px);
+  user-select: none;
+  -webkit-user-select: none;
+  -webkit-touch-callout: none;
 }
 
 .pause-panel {
