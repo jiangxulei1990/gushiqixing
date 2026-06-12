@@ -111,11 +111,11 @@ const vehicles = [
     id: "default",
     name: "K线赛车",
     desc: "默认座驾",
-    body: "#f6f6f6",
-    accent: "#ffffff",
-    fork: "#d8d8d8",
+    body: "#58cc02",
+    accent: "#58cc02",
+    fork: "#7ed957",
     asset: "assets/motocross-ai-side.png",
-    filter: "grayscale(1) contrast(1.85) brightness(1.18)",
+    filter: "saturate(1.08) contrast(1.04) brightness(1.06)",
     imageBox: [-57, -66, 125, 125],
     wheelBack: { x: -36, y: 20, r: 15, sx: 214, sy: 865, sr: 162 },
     wheelFront: { x: 39, y: 19, r: 16, sx: 972, sy: 860, sr: 166 },
@@ -138,7 +138,7 @@ const $ = (id) => document.getElementById(id);
 const EM_TOKEN = "D43BF722C8E33BD155A13C30E7235B2E";
 const EM_SEARCH_API = "https://searchapi.eastmoney.com/api/suggest/get";
 const EM_KLINE_API = "https://push2his.eastmoney.com/api/qt/stock/kline/get";
-const ASSET_VERSION = "mono-red-green-1";
+const ASSET_VERSION = "duo-light-1";
 const imageCache = new Map();
 const engineAudio = {
   ctx: null,
@@ -416,7 +416,7 @@ function drawChart(canvas, points, color = "#5dcaa5", options = {}) {
   const x = (i) => pad + (i / (points.length - 1)) * (width - pad * 2);
   const y = (v) => height - pad - ((v - min) / range) * (height - pad * 2);
 
-  ctx.strokeStyle = "rgba(255,255,255,.08)";
+  ctx.strokeStyle = "rgba(39,50,56,.08)";
   ctx.lineWidth = 1;
   for (let i = 0; i < 4; i++) {
     const gy = pad + ((height - pad * 2) / 3) * i;
@@ -454,7 +454,7 @@ function drawChart(canvas, points, color = "#5dcaa5", options = {}) {
   ctx.stroke();
 
   if (options.labels) {
-    ctx.fillStyle = "#9aa3b2";
+    ctx.fillStyle = "#7b8794";
     ctx.font = "24px sans-serif";
     ctx.textAlign = "left";
     ctx.fillText(points[0].date.slice(0, 7), pad, height - 8);
@@ -595,10 +595,10 @@ function renderPregame() {
   $("selected-code").textContent = track.code;
   $("metric-period").textContent = state.period === "1y" ? "近 1 年" : state.period === "3y" ? "近 3 年" : "全部";
   $("metric-return").textContent = `${m.returns > 0 ? "+" : ""}${m.returns}%`;
-  $("metric-return").style.color = "#f5f5f5";
+  $("metric-return").style.color = "#273238";
   $("metric-difficulty").textContent = m.difficulty;
   $("metric-volatility").textContent = m.vol.toFixed(2);
-  drawChart($("preview-chart"), points, marketColorForPoints(points), { pad: 34, labels: true, thick: true, bg: "#020202" });
+  drawChart($("preview-chart"), points, marketColorForPoints(points), { pad: 34, labels: true, thick: true, bg: "#ffffff" });
   renderLoadout();
 }
 
@@ -661,7 +661,7 @@ function confirmLoadout() {
 function drawRiderPreview(canvas, rider) {
   const ctx = canvas.getContext("2d");
   ctx.clearRect(0, 0, canvas.width, canvas.height);
-  ctx.fillStyle = "#0d0f14";
+  ctx.fillStyle = "#f7fff0";
   ctx.fillRect(0, 0, canvas.width, canvas.height);
   const image = assetImage(rider.asset);
   if (imageReady(image)) {
@@ -715,7 +715,7 @@ function drawRiderPreview(canvas, rider) {
 function drawVehiclePreview(canvas, vehicle) {
   const ctx = canvas.getContext("2d");
   ctx.clearRect(0, 0, canvas.width, canvas.height);
-  ctx.fillStyle = "#0d0f14";
+  ctx.fillStyle = "#f7fff0";
   ctx.fillRect(0, 0, canvas.width, canvas.height);
   const image = assetImage(vehicle.asset);
   if (imageReady(image)) {
@@ -1210,14 +1210,14 @@ function loopGame(now) {
 
 function drawGame(ctx, game, w, h, onGround) {
   ctx.clearRect(0, 0, w, h);
-  ctx.fillStyle = "#0d0e13";
+  ctx.fillStyle = "#f7fff0";
   ctx.fillRect(0, 0, w, h);
 
   ctx.save();
   ctx.translate(-game.camera, 0);
 
   for (let x = Math.floor(game.camera / 220) * 220; x < game.camera + w + 220; x += 220) {
-    ctx.strokeStyle = "rgba(255,255,255,.025)";
+    ctx.strokeStyle = "rgba(39,50,56,.045)";
     ctx.beginPath();
     ctx.moveTo(x, 0);
     ctx.lineTo(x, h);
@@ -1232,14 +1232,14 @@ function drawGame(ctx, game, w, h, onGround) {
   ctx.lineTo(game.terrain[game.terrain.length - 1].x, h + 100);
   ctx.lineTo(game.terrain[0].x, h + 100);
   ctx.closePath();
-  ctx.fillStyle = "rgba(28, 30, 39, 0.72)";
+  ctx.fillStyle = "rgba(229, 248, 214, 0.72)";
   ctx.fill();
 
   drawNeonTrack(ctx, game.terrain, marketColorForPoints(state.points));
   drawPriceMarkers(ctx, game.terrain, game.camera, w);
 
-  drawFlag(ctx, 52, game.terrain[0].y, "起点", "#f5f5f5");
-  drawFlag(ctx, game.terrain[game.terrain.length - 1].x, game.terrain[game.terrain.length - 1].y, "终点", "#f5f5f5");
+  drawFlag(ctx, 52, game.terrain[0].y, "起点", "#58cc02");
+  drawFlag(ctx, game.terrain[game.terrain.length - 1].x, game.terrain[game.terrain.length - 1].y, "终点", "#1cb0f6");
   drawBike(ctx, game.bike, onGround);
   ctx.restore();
 
@@ -1258,7 +1258,7 @@ function drawNeonTrack(ctx, terrain, color) {
   ctx.lineJoin = "round";
   ctx.lineCap = "round";
   ctx.shadowColor = color;
-  ctx.shadowBlur = 24;
+  ctx.shadowBlur = 10;
   strokePath();
   ctx.strokeStyle = `${color}55`;
   ctx.lineWidth = 9;
@@ -1270,7 +1270,7 @@ function drawNeonTrack(ctx, terrain, color) {
   ctx.stroke();
   ctx.shadowBlur = 0;
   strokePath();
-  ctx.strokeStyle = "#f5f5f5";
+  ctx.strokeStyle = "#ffffff";
   ctx.globalAlpha = color === "#5dcaa5" ? 0.45 : 0.34;
   ctx.lineWidth = 1.4;
   ctx.stroke();
@@ -1284,12 +1284,12 @@ function drawPriceMarkers(ctx, terrain, camera, width) {
   ctx.textBaseline = "bottom";
   terrain.forEach((p, i) => {
     if (i % 5 !== 0 || p.x < camera - 80 || p.x > camera + width + 80) return;
-    ctx.strokeStyle = "rgba(255,255,255,.12)";
+    ctx.strokeStyle = "rgba(39,50,56,.16)";
     ctx.beginPath();
     ctx.moveTo(p.x, p.y);
     ctx.lineTo(p.x, p.y - 38);
     ctx.stroke();
-    ctx.fillStyle = "rgba(245,247,251,.52)";
+    ctx.fillStyle = "rgba(39,50,56,.58)";
     const value = p.price >= 100 ? `$${Math.round(p.price)}` : `$${p.price.toFixed(2)}`;
     ctx.fillText(value, p.x, p.y - 42);
   });
@@ -1297,7 +1297,7 @@ function drawPriceMarkers(ctx, terrain, camera, width) {
 }
 
 function drawFlag(ctx, x, y, label, color) {
-  ctx.strokeStyle = "rgba(255,255,255,.28)";
+  ctx.strokeStyle = "rgba(39,50,56,.28)";
   ctx.lineWidth = 2;
   ctx.beginPath();
   ctx.moveTo(x, y);
@@ -1305,7 +1305,7 @@ function drawFlag(ctx, x, y, label, color) {
   ctx.stroke();
   ctx.fillStyle = color;
   ctx.fillRect(x, y - 92, 68, 24);
-  ctx.fillStyle = "#07110f";
+  ctx.fillStyle = "#ffffff";
   ctx.font = "bold 11px sans-serif";
   ctx.textAlign = "center";
   ctx.textBaseline = "middle";
@@ -1452,7 +1452,7 @@ function drawBike(ctx, bike, onGround) {
   ctx.closePath();
   ctx.fill();
 
-  ctx.fillStyle = "#f5f7fb";
+  ctx.fillStyle = "#ffffff";
   ctx.beginPath();
   ctx.arc(-19, -50, 2.5, 0, Math.PI * 2);
   ctx.fill();
@@ -1560,8 +1560,8 @@ function drawMiniMap(ctx, game, w, h) {
   const maxX = Math.max(...xs);
   const minY = Math.min(...ys);
   const maxY = Math.max(...ys);
-  ctx.fillStyle = "rgba(18,20,28,.74)";
-  ctx.strokeStyle = "rgba(255,255,255,.14)";
+  ctx.fillStyle = "rgba(255,255,255,.86)";
+  ctx.strokeStyle = "rgba(39,50,56,.12)";
   ctx.beginPath();
   ctx.roundRect(x0, y0, mapW, mapH, 6);
   ctx.fill();
@@ -1573,11 +1573,11 @@ function drawMiniMap(ctx, game, w, h) {
     if (i === 0) ctx.moveTo(x, y);
     else ctx.lineTo(x, y);
   });
-  ctx.strokeStyle = "rgba(255,255,255,.24)";
+  ctx.strokeStyle = "rgba(39,50,56,.24)";
   ctx.lineWidth = 1;
   ctx.stroke();
   const bx = x0 + ((game.bike.x - minX) / (maxX - minX)) * mapW;
-  ctx.fillStyle = "#f5f5f5";
+  ctx.fillStyle = "#58cc02";
   ctx.beginPath();
   ctx.arc(bx, y0 + mapH / 2, 4, 0, Math.PI * 2);
   ctx.fill();
@@ -1612,25 +1612,25 @@ function drawShareCard(score, elapsed, flips, crashes) {
   const ctx = canvas.getContext("2d");
   const track = state.selected;
   const lineColor = marketColorForPoints(state.points);
-  ctx.fillStyle = "#030303";
+  ctx.fillStyle = "#ffffff";
   ctx.fillRect(0, 0, canvas.width, canvas.height);
-  ctx.strokeStyle = "#2a2a2a";
+  ctx.strokeStyle = "#e5e5e5";
   ctx.lineWidth = 2;
   ctx.strokeRect(20, 20, canvas.width - 40, canvas.height - 40);
   ctx.font = "bold 42px sans-serif";
-  ctx.fillStyle = "#f5f7fb";
+  ctx.fillStyle = "#273238";
   ctx.fillText("A股", 58, 76);
-  ctx.fillStyle = "#f5f5f5";
+  ctx.fillStyle = "#58cc02";
   ctx.fillText("K线骑行", 144, 76);
-  ctx.fillStyle = "#9aa3b2";
+  ctx.fillStyle = "#7b8794";
   ctx.font = "28px sans-serif";
   ctx.fillText(`${track.name} · ${track.code}`, 58, 136);
   ctx.textAlign = "center";
-  ctx.fillStyle = "#f5f7fb";
+  ctx.fillStyle = "#273238";
   ctx.font = "bold 138px sans-serif";
   ctx.fillText(score.toLocaleString(), canvas.width / 2, 300);
   ctx.font = "28px sans-serif";
-  ctx.fillStyle = "#9aa3b2";
+  ctx.fillStyle = "#7b8794";
   ctx.fillText("分", canvas.width / 2, 346);
   drawShareChart(ctx, state.points, lineColor, 58, 420, canvas.width - 116, 250);
   const stats = [
@@ -1640,17 +1640,17 @@ function drawShareCard(score, elapsed, flips, crashes) {
   ];
   stats.forEach(([label, value], i) => {
     const x = 170 + i * 280;
-    ctx.fillStyle = "#9aa3b2";
+    ctx.fillStyle = "#7b8794";
     ctx.font = "24px sans-serif";
     ctx.fillText(label, x, 688);
-    ctx.fillStyle = i === 1 ? "#e24b4a" : "#f5f7fb";
+    ctx.fillStyle = i === 1 ? "#e24b4a" : "#273238";
     ctx.font = "bold 52px sans-serif";
     ctx.fillText(String(value), x, 754);
   });
-  ctx.fillStyle = "#f5f5f5";
+  ctx.fillStyle = "#58cc02";
   ctx.font = "bold 34px sans-serif";
   ctx.fillText("来挑战你的持仓过山车", canvas.width / 2, 1000);
-  ctx.fillStyle = "#9aa3b2";
+  ctx.fillStyle = "#7b8794";
   ctx.font = "24px sans-serif";
   ctx.fillText("仅基于历史行情生成娱乐赛道，不构成投资建议", canvas.width / 2, 1070);
   ctx.textAlign = "left";
@@ -1664,7 +1664,7 @@ function drawShareChart(ctx, points, color, left, top, width, height) {
   const x = (i) => left + (i / (points.length - 1)) * width;
   const y = (v) => top + height - ((v - min) / range) * height;
   ctx.save();
-  ctx.strokeStyle = "rgba(255,255,255,.08)";
+  ctx.strokeStyle = "rgba(39,50,56,.08)";
   ctx.lineWidth = 1;
   for (let i = 0; i < 4; i++) {
     const gy = top + (height / 3) * i;
@@ -1694,7 +1694,7 @@ function drawShareChart(ctx, points, color, left, top, width, height) {
   ctx.strokeStyle = color;
   ctx.lineWidth = 5;
   ctx.stroke();
-  ctx.fillStyle = "#9aa3b2";
+  ctx.fillStyle = "#7b8794";
   ctx.font = "22px sans-serif";
   ctx.textAlign = "left";
   ctx.fillText(points[0].date.slice(0, 7), left, top + height + 36);

@@ -3,13 +3,13 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
-    <meta name="theme-color" content="#111318" />
+    <meta name="theme-color" content="#ffffff" />
     <meta
       name="description"
       content="A股K线骑行，把历史行情变成骑行赛道。仅供娱乐，不构成投资建议。"
     />
     <title>A股K线骑行</title>
-    <link rel="stylesheet" href="./styles.css?v=mono-red-green-1" />
+    <link rel="stylesheet" href="./styles.css?v=duo-light-1" />
   </head>
   <body>
     <main id="app">
@@ -24,9 +24,8 @@
 
         <section class="hero">
           <div class="hero-copy">
-            <p class="eyebrow">历史行情娱乐赛道</p>
-            <h1>骑过一条 K 线，才知道它有多颠。</h1>
-            <p class="subtitle">选择股票、指数或基金样例，把收盘价曲线变成越野赛道。只看历史，不作建议。</p>
+            <h1>A股K线骑行</h1>
+            <p class="subtitle">选一条 K 线，马上开骑。</p>
           </div>
           <div class="hero-visual" aria-hidden="true">
             <canvas id="hero-chart" width="760" height="300"></canvas>
@@ -34,10 +33,10 @@
         </section>
 
         <form class="search-panel" id="ticker-form">
-          <label for="ticker-search">输入代码或名称</label>
+          <label for="ticker-search">搜股票 / 基金</label>
           <div class="search-row">
             <input id="ticker-search" type="search" placeholder="例如：贵州茅台、沪深300、白酒ETF" autocomplete="off" />
-            <button type="submit">开骑</button>
+            <button type="submit">开始</button>
           </div>
           <div class="suggestions" id="suggestions"></div>
         </form>
@@ -45,14 +44,12 @@
         <section class="section">
           <div class="section-head">
             <h2>热门赛道</h2>
-            <span>先跑样例，后接真实行情</span>
           </div>
           <div class="track-grid" id="track-grid"></div>
         </section>
 
         <footer class="site-foot">
           <a href="#" id="legal-link">免责声明</a>
-          <span>仅供娱乐，不构成任何投资建议</span>
         </footer>
       </section>
 
@@ -173,6 +170,6 @@
       </section>
     </main>
 
-    <script src="./app.js?v=mono-red-green-1"></script>
+    <script src="./app.js?v=duo-light-1"></script>
   </body>
 </html>
